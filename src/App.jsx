@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, useTexture } from "@react-three/drei";
-import { useMemo, useRef, useState, useEffect, Suspense } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { useMemo, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 
 const PROJECTS = [
@@ -193,9 +193,20 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
   const { project, imgIdx } = cardData;
   const isActiveProject = activeProjectId === project.id;
   const isAnyActive = activeProjectId !== null;
+  const [texture, setTexture] = useState(null);
 
-  const texture = useTexture(`/projects/${project.folder}/${imgIdx}.jpg`);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      `/projects/${project.folder}/${imgIdx}.jpg`,
+      (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        setTexture(tex);
+      },
+      undefined,
+      () => {} // silently ignore errors
+    );
+  }, [project.folder, imgIdx]);
 
   // Random stable position spread across wide 3D space
   const basePos = useMemo(() => {
@@ -211,6 +222,7 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
   const baseRotY = useMemo(() => (cardIndex * 0.618) * Math.PI * 2, [cardIndex]);
 
   const aspect = useMemo(() => {
+    if (!texture) return 1.0;
     const w = texture.image?.width || 1;
     const h = texture.image?.height || 1;
     return Math.min(Math.max(w / h, 0.5), 2.0);
@@ -268,10 +280,18 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
         document.body.style.cursor = "default";
       }}
     >
+      {texture && (
       <mesh>
         <planeGeometry args={[cardW, cardH]} />
         <meshBasicMaterial map={texture} side={THREE.DoubleSide} />
       </mesh>
+      )}
+      {!texture && (
+      <mesh>
+        <planeGeometry args={[cardW, cardH]} />
+        <meshBasicMaterial color="#111111" side={THREE.DoubleSide} />
+      </mesh>
+      )}
       {/* thin accent line top */}
       <mesh position={[0, cardH / 2 + 0.02, 0.001]}>
         <planeGeometry args={[cardW, 0.04]} />
@@ -282,11 +302,7 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
 }
 
 function FloatingCardSuspense(props) {
-  return (
-    <Suspense fallback={null}>
-      <FloatingCard {...props} />
-    </Suspense>
-  );
+  return <FloatingCard {...props} />;
 }
 
 // ─── CAMERA RIG ───────────────────────────────────────────────────────────────
