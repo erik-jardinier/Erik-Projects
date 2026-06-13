@@ -1,559 +1,521 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
+
+// ─── PROJECT DATA ────────────────────────────────────────────────────────────
 
 const PROJECTS = [
   {
-    id: 1, index: "01",
+    id: "01",
     title: "Boarding House",
-    category: "UI/UX",
-    year: "2020-2021", type: "Design & Construction III", num: "#01",
-    accent: "#c8a97e",
-    description: "A residential and commercial building on a corner lot at Kantstrasse 100 / Bleibtreustrasse 50a, covering 621m². Targeting students with good transport connections. Balconies integrated into the facade through continuous horizontal cornices, floor-to-ceiling windows, and a courtyard with flower beds.",
-    tags: ["Residential", "Mixed-Use", "Corner Lot", "621m²"],
-    professor: "Prof. Jan Kleihues", semester: "WiSe 2020/21",
+    category: "Architecture",
+    year: "2020–21",
+    location: "Berlin",
+    client: "Studio",
+    team: "Prof. Jan Kleihues",
+    description:
+      "A residential boarding house project developed under Prof. Jan Kleihues in Berlin, exploring communal living typologies and urban integration.",
     folder: "01_boarding_house",
-    images: ["00","01","02","03","04"],
+    images: ["00.jpg", "01.jpg", "02.jpg", "03.jpg"],
+    accent: "#C8A882",
   },
   {
-    id: 2, index: "02",
+    id: "02",
     title: "Gutenberg Museum",
     category: "Architecture",
-    year: "2022", type: "TRU Architekten — Internship", num: "#02",
-    accent: "#8fa8c8",
-    description: "Competition entry for the new Gutenberg Museum in Mainz's Old Town. The Gutenberg Plateau — a single-story level with a large outdoor staircase — links the historic Roman Emperor building with the new structure.",
-    tags: ["Museum", "Competition", "Urban Design", "Historic Context"],
-    client: "City of Mainz",
-    team: "Sandra Töpfer, Karsten Ruf, Karolina Kotyrba, Lara Kienold, Erik Gärtner",
+    year: "2022",
+    location: "Mainz",
+    client: "Competition",
+    team: "",
+    description:
+      "Competition entry for the Gutenberg Museum in Mainz — a proposal exploring the relationship between print heritage and contemporary public space.",
     folder: "02_gutenberg",
-    images: ["00","01","02","04"],
+    images: ["00.jpg", "01.jpg", "02.jpg", "03.jpg"],
+    accent: "#8BA8C8",
   },
   {
-    id: 3, index: "03",
+    id: "03",
     title: "Innovation Forum",
-    category: "Urban Design",
-    year: "2023-2024", type: "Interflex Seminar", num: "#03",
-    accent: "#9eb89e",
-    description: "A versatile innovation site at the PCK refinery for research, development and renewable energy. A continuous grid allows controlled yet flexible building structures arranged around a central forum courtyard.",
-    tags: ["Innovation", "Renewable Energy", "Masterplan", "Adaptive Grid"],
-    team: "Mathis Winkels, Vladislav Sirotin, Jannik Schlingemann, Erik Gärtner",
+    category: "Architecture",
+    year: "2023–24",
+    location: "Schwedt/Oder",
+    client: "PCK Refinery",
+    team: "",
+    description:
+      "A research and innovation forum for the PCK Refinery site in Schwedt/Oder, reimagining industrial infrastructure as a civic knowledge hub.",
     folder: "03_innovation",
-    images: ["07","08","00","01","02"],
+    images: ["00.jpg", "01.jpg", "02.jpg", "03.jpg"],
+    accent: "#A8C88B",
   },
   {
-    id: 4, index: "04",
+    id: "04",
     title: "Campus di Astrofisica",
     category: "Architecture",
-    year: "2024", type: "Master I — Trieste", num: "#04",
-    accent: "#b89eb8",
-    description: "An astrophysics campus on a former industrial site. The Gasometro from the 1950s is repurposed as a planetarium. A new exhibition tower features a projection sphere displaying animations.",
-    tags: ["Campus", "Planetarium", "Adaptive Reuse", "Exhibition Tower"],
-    exhibition: "Civico Museo Sartorio, Trieste 2024",
+    year: "2024",
+    location: "Trieste",
+    client: "Master Thesis",
+    team: "",
+    description:
+      "Master thesis project — an astrophysics campus in Trieste that dissolves the boundary between scientific research and the surrounding landscape.",
     folder: "04_campus",
-    images: ["09","10","07","06","01","02"],
+    images: ["00.jpg", "01.jpg", "02.jpg", "03.jpg"],
+    accent: "#9B8BC8",
   },
   {
-    id: 5, index: "05",
+    id: "05",
     title: "Archive",
     category: "Graphic Design",
-    year: "2024", type: "Album Cover Art", num: "#05",
-    accent: "#d4a0a0",
-    description: "Album cover for Kimany Thayano's 'Archive,' spanning songs from 2020–2024. Concept draws from Raf Simons' archive books and Redux publication. Minimalist layout referencing file-like cover design.",
-    tags: ["Graphic Design", "Typography", "Music", "Minimalism"],
+    year: "2024",
+    location: "",
     client: "Kimany Thayano",
+    team: "",
+    description:
+      "Album cover artwork for musician Kimany Thayano — a visual identity rooted in archival aesthetics and material memory.",
     folder: "05_album",
-    images: ["00","01","02","03"],
+    images: ["00.jpg", "01.jpg"],
+    accent: "#C88B8B",
   },
   {
-    id: 6, index: "06",
+    id: "06",
     title: "Échelle_25",
     category: "Product Design",
-    year: "2025", type: "Industrial Lamp Design", num: "#06",
-    accent: "#c8c09e",
-    description: "An industrial lamp where sockets are highlighted rather than concealed. Three light sources arranged asymmetrically. Conduit pipe rungs guide cables to a ceiling canopy.",
-    tags: ["Product Design", "Lighting", "Industrial", "Asymmetry"],
+    year: "2025",
+    location: "",
+    client: "",
+    team: "",
+    description:
+      "A lamp design exploring scale, light diffusion, and the dialogue between industrial materials and domestic warmth.",
     folder: "06_echelle",
-    images: ["00","01","02"],
+    images: ["00.jpg", "01.jpg"],
+    accent: "#C8C28B",
   },
   {
-    id: 7, index: "07",
-    title: "ANGST Add-Ons",
+    id: "07",
+    title: "ANGST Add-ons",
     category: "Product Design",
-    year: "2023", type: "AirPods Max Accessories", num: "#07",
-    accent: "#a0b8c8",
-    description: "Conceptual add-ons for Apple's AirPods Max. Typography draws from Aphex Twin's visual language. 'ANGST' is designed to carry a calming, rhythmic quality — turning fear into tranquility through music.",
-    tags: ["Product Design", "Typography", "Concept", "Apple"],
+    year: "2023",
+    location: "",
+    client: "",
+    team: "",
+    description:
+      "Concept accessories for AirPods Max — speculative product design exploring attachment, anxiety, and personal audio culture.",
     folder: "07_angst",
-    images: ["00","01","02","03","04","05"],
+    images: ["00.jpg", "01.jpg", "02.jpg"],
+    accent: "#8BC4C8",
   },
   {
-    id: 8, index: "08",
+    id: "08",
     title: "AI Image Gallery",
-    category: "Digital Art",
-    year: "2024", type: "AI-Generated Series", num: "#08",
-    accent: "#b0a0d4",
-    description: "An AI image gallery explaining the creative process from beginning to end. A series exploring the intersection of artificial intelligence, fashion, and organic form — from deer studies to sculptural body works.",
-    tags: ["AI", "Digital Art", "Fashion", "Generative"],
+    category: "Digital",
+    year: "2024",
+    location: "",
+    client: "",
+    team: "",
+    description:
+      "A curated series of AI-generated images exploring speculative architectures and synthetic landscapes.",
     folder: "08_ai_gallery",
-    images: ["00","01","02","03","04","05","06","07","08"],
+    images: ["00.jpg", "01.jpg", "02.jpg"],
+    accent: "#B88BC8",
   },
   {
-    id: 9, index: "09",
-    title: "GUCCI CRUISE 26",
-    category: "Fashion",
-    year: "2026", type: "GUCCICORE — Fashion Show", num: "#09",
-    accent: "#c8a060",
-    description: "The fashion show opened with a montage video that filled the screens of Times Square, exploring the idea of Gucci as an ethos, a lifestyle, an identity and an aesthetic universe. Set May 16th in New York City.",
-    tags: ["Fashion", "Gucci", "NYC", "Times Square", "Show"],
+    id: "09",
+    title: "Gucci Cruise 26 — GUCCICORE",
+    category: "Fashion / Direction",
+    year: "2025",
+    location: "New York City",
+    client: "Gucci",
+    team: "",
+    description:
+      "The fashion show opened with a montage video that filled the screens of Times Square, exploring the idea of Gucci as an ethos, a lifestyle, an identity and an aesthetic universe. Set May 16th in NYC.",
     folder: "09_gucci_cruise",
-    images: ["00","01","02","03"],
-    video: "GC26-GUCCICORE.MP4",
+    images: ["00.jpg", "01.jpg", "02.jpg", "03.jpg"],
+    accent: "#C8A040",
   },
   {
-    id: 10, index: "10",
-    title: "GUCCI MEMORIA",
-    category: "Exhibition",
-    year: "2026", type: "Exhibition & Tapestry", num: "#10",
-    accent: "#d4b896",
-    description: "On display April 21–26, 2026 at Chiostri di San Simpliciano, Milano. Curated by Demna. Exhibition and tapestry artworks by Sub Global and Erik Gärtner.",
-    tags: ["Exhibition", "Gucci", "Milano", "Tapestry", "Demna"],
+    id: "10",
+    title: "Gucci Memoria Exhibition",
+    category: "Exhibition / Curation",
+    year: "2026",
+    location: "Chiostri di San Simpliciano, Milano",
+    client: "Gucci / Demna",
+    team: "Sub Global",
+    description:
+      "On display April 21–26, 2026. Curated by Demna, the exhibition featured tapestry artworks by Sub Global and the artist, tracing creative eras through woven material memory.",
     folder: "10_gucci_memoria",
-    images: ["00","01","02","03","04","05","06","07","08","09","10"],
+    images: [
+      "00.jpg", "01.jpg", "02.jpg", "03.jpg", "04.jpg",
+      "05.jpg", "06.jpg", "07.jpg", "08.jpg", "09.jpg", "10.jpg",
+    ],
+    accent: "#C84040",
   },
 ];
 
-// Build a flat list of all individual images as floating cards
-// Each project contributes multiple cards scattered in 3D space
-function buildCardList() {
-  const cards = [];
-  PROJECTS.forEach((proj) => {
-    proj.images.forEach((imgIdx, i) => {
-      cards.push({
-        projectId: proj.id,
-        project: proj,
-        imgIdx,
-        cardKey: `${proj.id}-${imgIdx}`,
-      });
-    });
-  });
-  return cards;
-}
+// ─── TEXTURE LOADER (crash-safe) ─────────────────────────────────────────────
 
-const ALL_CARDS = buildCardList();
-
-// ─── PARTICLES ────────────────────────────────────────────────────────────────
-function Particles() {
-  const ref = useRef();
-  const count = 80;
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 60;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 30;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 60;
-    }
-    return arr;
-  }, []);
-  const speeds = useMemo(() => Array.from({ length: count }, () => ({
-    vx: (Math.random() - 0.5) * 0.003,
-    vy: (Math.random() - 0.5) * 0.002,
-    vz: (Math.random() - 0.5) * 0.003,
-  })), []);
-  useFrame(() => {
-    if (!ref.current) return;
-    const pos = ref.current.geometry.attributes.position.array;
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] += speeds[i].vx;
-      pos[i * 3 + 1] += speeds[i].vy;
-      pos[i * 3 + 2] += speeds[i].vz;
-      if (pos[i * 3] > 30) pos[i * 3] = -30;
-      if (pos[i * 3] < -30) pos[i * 3] = 30;
-      if (pos[i * 3 + 1] > 15) pos[i * 3 + 1] = -15;
-      if (pos[i * 3 + 1] < -15) pos[i * 3 + 1] = 15;
-      if (pos[i * 3 + 2] > 30) pos[i * 3 + 2] = -30;
-      if (pos[i * 3 + 2] < -30) pos[i * 3 + 2] = 30;
-    }
-    ref.current.geometry.attributes.position.needsUpdate = true;
-  });
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.035} color="#ffffff" transparent opacity={0.3} sizeAttenuation />
-    </points>
-  );
-}
-
-// ─── SINGLE FLOATING IMAGE CARD ───────────────────────────────────────────────
-function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setActiveProject }) {
-  const ref = useRef();
-  const hoveredRef = useRef(false);
-  const { project, imgIdx } = cardData;
-  const isActiveProject = activeProjectId === project.id;
-  const isAnyActive = activeProjectId !== null;
+function useSafeTexture(url) {
   const [texture, setTexture] = useState(null);
-
   useEffect(() => {
+    if (!url) return;
     const loader = new THREE.TextureLoader();
     loader.load(
-      `/projects/${project.folder}/${imgIdx}.jpg`,
+      url,
       (tex) => {
         tex.colorSpace = THREE.SRGBColorSpace;
         setTexture(tex);
       },
       undefined,
-      () => {} // silently ignore errors
+      () => setTexture(null)
     );
-  }, [project.folder, imgIdx]);
+  }, [url]);
+  return texture;
+}
 
-  // Stable well-distributed positions using golden angle
-  const basePos = useMemo(() => {
-    const golden = 137.508 * (Math.PI / 180);
-    const angle = cardIndex * golden;
-    const radius = 6 + (cardIndex % 5) * 2.2;
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-    const y = ((cardIndex % 7) - 3) * 1.8;
-    return new THREE.Vector3(x, y, z);
-  }, [cardIndex]);
+// ─── PARTICLES ───────────────────────────────────────────────────────────────
 
-  const baseRotY = useMemo(() => cardIndex * 137.508 * (Math.PI / 180), [cardIndex]);
-
-  const aspect = useMemo(() => {
-    if (!texture) return 1.0;
-    const w = texture.image?.width || 1;
-    const h = texture.image?.height || 1;
-    return Math.min(Math.max(w / h, 0.5), 2.0);
-  }, [texture]);
-
-  // Card size variation - kept tighter to reduce overlap
-  const cardW = useMemo(() => 1.6 + (cardIndex % 3) * 0.3, [cardIndex]);
-  const cardH = cardW / aspect;
-
-  // Slow drift
-  const driftOffset = useMemo(() => cardIndex * 0.7, [cardIndex]);
-
-  useFrame((state) => {
-    if (!ref.current) return;
-    const t = state.clock.getElapsedTime();
-    const drift = Math.sin(t * 0.2 + driftOffset) * 0.08;
-
-    if (isActiveProject) {
-      // Fan out the cards of the active project nicely
-      const siblingIdx = project.images.indexOf(imgIdx);
-      const total = project.images.length;
-      const spread = (siblingIdx - (total - 1) / 2) * 3.5;
-      const target = new THREE.Vector3(spread, 0, 2);
-      ref.current.position.lerp(target, 0.06);
-      ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, 0, 0.06);
-    } else if (isAnyActive) {
-      const pushed = basePos.clone().multiplyScalar(1.5);
-      pushed.y += drift;
-      ref.current.position.lerp(pushed, 0.04);
-    } else {
-      const floatPos = basePos.clone();
-      floatPos.y += drift;
-      ref.current.position.lerp(floatPos, 0.04);
-      ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, baseRotY, 0.01);
+function Particles({ count = 80 }) {
+  const ref = useRef();
+  const geo = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
     }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    return g;
+  }, [count]);
 
-    const targetScale = isActiveProject ? 1.1 : hoveredRef.current ? 1.06 : 1.0;
-    ref.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+  useFrame((_, delta) => {
+    if (ref.current) ref.current.rotation.y += delta * 0.02;
   });
 
   return (
-    <group
-      ref={ref}
-      onClick={(e) => {
-        e.stopPropagation();
-        setActiveProject(isActiveProject ? null : project);
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        hoveredRef.current = true;
-        document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={() => {
-        hoveredRef.current = false;
-        document.body.style.cursor = "default";
-      }}
-    >
-      {texture && (
-      <mesh>
-        <planeGeometry args={[cardW, cardH]} />
-        <meshBasicMaterial map={texture} side={THREE.DoubleSide} />
-      </mesh>
-      )}
-      {!texture && (
-      <mesh>
-        <planeGeometry args={[cardW, cardH]} />
-        <meshBasicMaterial color="#111111" side={THREE.DoubleSide} />
-      </mesh>
-      )}
-      {/* thin accent line top */}
-      <mesh position={[0, cardH / 2 + 0.02, 0.001]}>
-        <planeGeometry args={[cardW, 0.04]} />
-        <meshBasicMaterial color={project.accent} transparent opacity={isActiveProject ? 1 : 0.6} />
-      </mesh>
-    </group>
+    <points ref={ref} geometry={geo}>
+      <pointsMaterial size={0.06} color="#ffffff" transparent opacity={0.35} sizeAttenuation />
+    </points>
   );
 }
 
-function FloatingCardSuspense(props) {
-  return <FloatingCard {...props} />;
-}
+// ─── CARD ─────────────────────────────────────────────────────────────────────
 
-// ─── CAMERA RIG ───────────────────────────────────────────────────────────────
-function CameraRig({ activeProject }) {
-  const { camera } = useThree();
-  const target = useRef(new THREE.Vector3(0, 0, 16));
-  useEffect(() => {
-    target.current.set(...(activeProject ? [0, 0, 9] : [0, 0, 16]));
-  }, [activeProject]);
-  useFrame(() => {
-    camera.position.lerp(target.current, 0.045);
-    if (!activeProject) camera.lookAt(0, 0, 0);
+function Card({ project, position, isActive, onClick }) {
+  const meshRef = useRef();
+  const texture = useSafeTexture(`/projects/${project.folder}/${project.images[0]}`);
+  const [hovered, setHovered] = useState(false);
+
+  // Unique slow drift per card
+  const drift = useMemo(() => ({
+    speed: 0.15 + Math.random() * 0.2,
+    xAmp: 0.08 + Math.random() * 0.12,
+    yAmp: 0.06 + Math.random() * 0.1,
+    phase: Math.random() * Math.PI * 2,
+  }), []);
+
+  // Card size: slightly portrait, larger for Gucci projects
+  const isLarge = project.id === "09" || project.id === "10";
+  const w = isLarge ? 2.8 : 2.2;
+  const h = isLarge ? 1.9 : 1.5;
+
+  useFrame(({ clock }) => {
+    if (!meshRef.current) return;
+    const t = clock.getElapsedTime();
+
+    // Target position: active cards come forward
+    const targetZ = isActive ? position[2] + 3.5 : position[2];
+    const targetX = position[0] + Math.sin(t * drift.speed + drift.phase) * drift.xAmp;
+    const targetY = position[1] + Math.cos(t * drift.speed * 0.7 + drift.phase) * drift.yAmp;
+
+    meshRef.current.position.x += (targetX - meshRef.current.position.x) * 0.04;
+    meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.04;
+    meshRef.current.position.z += (targetZ - meshRef.current.position.z) * 0.06;
+
+    // Very gentle tilt — no spinning
+    const targetRX = hovered ? -0.04 : 0.0;
+    const targetRY = hovered ? 0.04 : 0.0;
+    meshRef.current.rotation.x += (targetRX - meshRef.current.rotation.x) * 0.05;
+    meshRef.current.rotation.y += (targetRY - meshRef.current.rotation.y) * 0.05;
+
+    // Scale on hover
+    const targetScale = isActive ? 1.12 : hovered ? 1.05 : 1.0;
+    meshRef.current.scale.setScalar(
+      meshRef.current.scale.x + (targetScale - meshRef.current.scale.x) * 0.08
+    );
   });
-  return null;
+
+  return (
+    <mesh
+      ref={meshRef}
+      position={position}
+      onClick={(e) => { e.stopPropagation(); onClick(); }}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      <planeGeometry args={[w, h]} />
+      <meshBasicMaterial
+        map={texture}
+        color={texture ? "#ffffff" : "#1a1a1a"}
+        toneMapped={false}
+      />
+    </mesh>
+  );
 }
 
 // ─── SCENE ────────────────────────────────────────────────────────────────────
-function Scene({ activeProject, setActiveProject }) {
+
+function Scene({ activeId, setActiveId }) {
+  // Spread cards across 3D space using golden angle
+  const positions = useMemo(() => {
+    return PROJECTS.map((_, i) => {
+      const angle = i * 2.399; // golden angle
+      const radius = 6 + (i % 3) * 2.5;
+      const x = Math.cos(angle) * radius;
+      const y = (Math.random() - 0.5) * 6;
+      const z = Math.sin(angle) * radius * 0.5 - 4;
+      return [x, y, z];
+    });
+  }, []);
+
   return (
     <>
-      <ambientLight intensity={0.6} />
-      <Particles />
-      {ALL_CARDS.map((card, i) => (
-        <FloatingCardSuspense
-          key={card.cardKey}
-          cardData={card}
-          cardIndex={i}
-          totalCards={ALL_CARDS.length}
-          activeProjectId={activeProject?.id ?? null}
-          setActiveProject={setActiveProject}
+      <color attach="background" args={["#080808"]} />
+      <fog attach="fog" args={["#080808", 18, 40]} />
+      <Particles count={90} />
+      {PROJECTS.map((project, i) => (
+        <Card
+          key={project.id}
+          project={project}
+          position={positions[i]}
+          isActive={activeId === project.id}
+          onClick={() => setActiveId(activeId === project.id ? null : project.id)}
         />
       ))}
-      <CameraRig activeProject={activeProject} />
       <OrbitControls
-        enabled={!activeProject}
-        enableDamping dampingFactor={0.08}
-        rotateSpeed={0.5} zoomSpeed={0.8}
-        minDistance={6} maxDistance={30}
-        minPolarAngle={Math.PI / 5} maxPolarAngle={Math.PI / 1.5}
-        mouseButtons={{ LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN }}
+        enableZoom={true}
+        enablePan={false}
+        maxDistance={22}
+        minDistance={4}
+        autoRotate={!activeId}
+        autoRotateSpeed={0.35}
+        makeDefault
       />
     </>
   );
 }
 
-// ─── DETAIL OVERLAY (full screen like reference) ──────────────────────────────
-function ProjectDetail({ project, onClose }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setVisible(true), 40); return () => clearTimeout(t); }, []);
-  const handleClose = () => { setVisible(false); setTimeout(onClose, 400); };
+// ─── DETAIL PANEL ────────────────────────────────────────────────────────────
+
+function DetailPanel({ project, onClose }) {
+  const [imgIndex, setImgIndex] = useState(0);
+
+  useEffect(() => {
+    setImgIndex(0);
+  }, [project?.id]);
+
+  if (!project) return null;
 
   return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 200,
-      background: "rgba(3,3,3,0.97)",
-      opacity: visible ? 1 : 0,
-      transition: "opacity 0.4s ease",
-      overflowY: "auto",
-      fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-    }}>
-      {/* Top bar */}
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "24px 40px", borderBottom: "1px solid #111",
-        position: "sticky", top: 0, background: "rgba(3,3,3,0.97)", zIndex: 10,
-      }}>
-        <span style={{ fontSize: 10, letterSpacing: "0.3em", color: "#444", textTransform: "uppercase" }}>
-          PORTFOLIO
-        </span>
-        <button onClick={handleClose} style={{
-          background: "none", border: "1px solid #222", color: "#666",
-          fontSize: 10, letterSpacing: "0.2em", cursor: "pointer", padding: "8px 18px",
-          fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-          textTransform: "uppercase", transition: "all 0.2s",
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.85)",
+        backdropFilter: "blur(6px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+        padding: "32px",
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          background: "#0f0f0f",
+          border: "1px solid rgba(255,255,255,0.08)",
+          maxWidth: 900,
+          width: "100%",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         }}
-          onMouseOver={e => { e.currentTarget.style.borderColor = "#fff"; e.currentTarget.style.color = "#fff"; }}
-          onMouseOut={e => { e.currentTarget.style.borderColor = "#222"; e.currentTarget.style.color = "#666"; }}
-        >✕ CLOSE</button>
-      </div>
-
-      <div style={{ padding: "48px 40px 80px", maxWidth: 1200, margin: "0 auto" }}>
-        {/* Category pill */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          border: `1px solid ${project.accent}66`, padding: "5px 14px",
-          borderRadius: 20, marginBottom: 24,
-        }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: project.accent }} />
-          <span style={{ fontSize: 11, letterSpacing: "0.15em", color: project.accent, textTransform: "uppercase" }}>
-            {project.category}
-          </span>
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div style={{ padding: "24px 28px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 6 }}>
+              {project.id} — {project.category}
+            </div>
+            <h2 style={{ color: "#fff", fontSize: 22, fontWeight: 300, margin: 0, letterSpacing: "-0.01em" }}>
+              {project.title}
+            </h2>
+          </div>
+          <button
+            onClick={onClose}
+            style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 22, cursor: "pointer", padding: "0 0 0 16px", lineHeight: 1 }}
+          >
+            ×
+          </button>
         </div>
 
-        {/* Title */}
-        <h1 style={{
-          fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 700,
-          color: "#fff", margin: "0 0 20px", lineHeight: 1.05, letterSpacing: "-0.01em",
-        }}>{project.title}</h1>
-
-        {/* Meta row */}
-        <div style={{ display: "flex", gap: 32, marginBottom: 40, alignItems: "center", flexWrap: "wrap" }}>
-          <span style={{ fontSize: 12, color: "#444" }}>{project.year}</span>
-          <div style={{ width: 1, height: 14, background: "#222" }} />
-          <span style={{ fontSize: 12, color: "#444" }}>{project.type}</span>
-          <div style={{ width: 1, height: 14, background: "#222" }} />
-          <span style={{ fontSize: 12, color: "#444" }}>{project.num}</span>
+        {/* Main image */}
+        <div style={{ position: "relative", background: "#050505", aspectRatio: "16/9", overflow: "hidden" }}>
+          <img
+            src={`/projects/${project.folder}/${project.images[imgIndex]}`}
+            alt={project.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+          {/* Nav arrows */}
+          {project.images.length > 1 && (
+            <>
+              <button
+                onClick={() => setImgIndex((i) => (i - 1 + project.images.length) % project.images.length)}
+                style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 36, height: 36, borderRadius: "50%", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >‹</button>
+              <button
+                onClick={() => setImgIndex((i) => (i + 1) % project.images.length)}
+                style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 36, height: 36, borderRadius: "50%", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >›</button>
+            </>
+          )}
         </div>
 
-        {/* Description */}
-        <p style={{
-          fontSize: 15, lineHeight: 1.8, color: "#666",
-          maxWidth: 520, marginBottom: 56,
-        }}>{project.description}</p>
-
-        {/* Image grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: 3,
-        }}>
-          {project.images.map((imgIdx, i) => (
-            <div key={i} style={{
-              aspectRatio: i === 0 ? "2/1" : "3/2",
-              gridColumn: i === 0 ? "1 / -1" : "auto",
-              overflow: "hidden",
-              background: "#0a0a0a",
-              cursor: "pointer",
-            }}
-              onMouseOver={e => e.currentTarget.firstChild.style.transform = "scale(1.03)"}
-              onMouseOut={e => e.currentTarget.firstChild.style.transform = "scale(1)"}
-            >
+        {/* Thumbnails */}
+        {project.images.length > 1 && (
+          <div style={{ display: "flex", gap: 6, padding: "10px 28px", overflowX: "auto", background: "#0a0a0a" }}>
+            {project.images.map((img, i) => (
               <img
-                src={`/projects/${project.folder}/${imgIdx}.jpg`}
+                key={i}
+                src={`/projects/${project.folder}/${img}`}
                 alt=""
+                onClick={() => setImgIndex(i)}
                 style={{
-                  width: "100%", height: "100%", objectFit: "cover",
-                  transition: "transform 0.5s ease", display: "block",
+                  width: 56, height: 40, objectFit: "cover", cursor: "pointer", flexShrink: 0,
+                  border: i === imgIndex ? `1.5px solid ${project.accent}` : "1.5px solid transparent",
+                  opacity: i === imgIndex ? 1 : 0.5,
+                  transition: "opacity 0.2s",
                 }}
               />
+            ))}
+          </div>
+        )}
+
+        {/* Meta + description */}
+        <div style={{ padding: "20px 28px 28px", display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: 24 }}>
+          <div>
+            {[
+              ["Year", project.year],
+              ["Location", project.location],
+              ["Client", project.client],
+              ["Team", project.team],
+            ].filter(([, v]) => v).map(([label, val]) => (
+              <div key={label} style={{ marginBottom: 14 }}>
+                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
+                <div style={{ color: "rgba(255,255,255,0.85)", fontSize: 13, fontWeight: 300 }}>{val}</div>
+              </div>
+            ))}
+            <div style={{ marginTop: 8 }}>
+              <span style={{ background: project.accent + "22", color: project.accent, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 10px", border: `1px solid ${project.accent}44` }}>
+                {project.category}
+              </span>
             </div>
-          ))}
+          </div>
+          <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.75, margin: 0, fontWeight: 300 }}>
+            {project.description}
+          </p>
         </div>
-
-        {/* Tags */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 40 }}>
-          {project.tags.map(tag => (
-            <span key={tag} style={{
-              fontSize: 10, letterSpacing: "0.18em", color: project.accent,
-              border: `1px solid ${project.accent}44`,
-              padding: "5px 12px", textTransform: "uppercase",
-            }}>{tag}</span>
-          ))}
-        </div>
-
-        {/* Team / extra info */}
-        {project.team && (
-          <div style={{ marginTop: 32 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.25em", color: "#333", marginBottom: 8, textTransform: "uppercase" }}>Team</div>
-            <div style={{ fontSize: 12, color: "#555", lineHeight: 1.7 }}>{project.team}</div>
-          </div>
-        )}
-        {project.professor && (
-          <div style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.25em", color: "#333", marginBottom: 8, textTransform: "uppercase" }}>Professor</div>
-            <div style={{ fontSize: 12, color: "#555" }}>{project.professor} · {project.semester}</div>
-          </div>
-        )}
-        {project.client && (
-          <div style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.25em", color: "#333", marginBottom: 8, textTransform: "uppercase" }}>Client</div>
-            <div style={{ fontSize: 12, color: "#555" }}>{project.client}</div>
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
+
 export default function App() {
-  const [activeProject, setActiveProject] = useState(null);
+  const [activeId, setActiveId] = useState(null);
+  const activeProject = PROJECTS.find((p) => p.id === activeId);
 
   return (
-    <div style={{ width: "100vw", height: "100vh", background: "#030303" }}>
-      <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #030303; overflow: hidden; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: #1a1a1a; }
-      `}</style>
+    <div style={{ width: "100vw", height: "100vh", background: "#080808", overflow: "hidden", position: "relative" }}>
+      {/* 3D Canvas */}
+      <Canvas
+        camera={{ position: [0, 0, 14], fov: 55 }}
+        dpr={[1, 1.5]}
+        style={{ position: "absolute", inset: 0 }}
+        onClick={() => setActiveId(null)}
+      >
+        <Scene activeId={activeId} setActiveId={setActiveId} />
+      </Canvas>
 
-      {/* Name — top left */}
-      <div style={{ position: "fixed", top: 28, left: 32, zIndex: 60 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.32em", color: "#2a2a2a", marginBottom: 5, textTransform: "uppercase" }}>Portfolio</div>
-        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", letterSpacing: "0.12em" }}>ERIK GÄRTNER</div>
+      {/* Name */}
+      <div style={{
+        position: "fixed", top: 28, left: 32,
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        color: "#fff", fontSize: 13, fontWeight: 300, letterSpacing: "0.06em",
+        pointerEvents: "none", userSelect: "none",
+      }}>
+        ERIK GÄRTNER
       </div>
 
-      {/* Hint — bottom center */}
-      {!activeProject && (
-        <div style={{
-          position: "fixed", bottom: 28, left: "50%", transform: "translateX(-50%)",
-          zIndex: 60, fontSize: 8, letterSpacing: "0.3em", color: "#1e1e1e", textTransform: "uppercase",
-        }}>
-          CLICK ANY CARD TO EXPLORE
-        </div>
-      )}
+      {/* Hint */}
+      <div style={{
+        position: "fixed", top: 28, right: 32,
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        color: "rgba(255,255,255,0.3)", fontSize: 11, letterSpacing: "0.1em",
+        textTransform: "uppercase", pointerEvents: "none",
+      }}>
+        Click a card to explore
+      </div>
 
-      {/* Project index — bottom left */}
-      <div style={{ position: "fixed", bottom: 28, left: 32, zIndex: 60 }}>
-        {PROJECTS.map(p => (
-          <button key={p.id}
-            onClick={() => setActiveProject(activeProject?.id === p.id ? null : p)}
+      {/* Project list sidebar */}
+      <div style={{
+        position: "fixed", bottom: 36, left: 32,
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        display: "flex", flexDirection: "column", gap: 7,
+      }}>
+        {PROJECTS.map((p) => (
+          <button
+            key={p.id}
+            onClick={() => setActiveId(activeId === p.id ? null : p.id)}
             style={{
-              display: "flex", alignItems: "center", gap: 8,
-              background: "none", border: "none", cursor: "pointer",
-              padding: "3px 0", textAlign: "left",
-            }}>
-            <div style={{
-              height: 1,
-              width: activeProject?.id === p.id ? 22 : 14,
-              background: activeProject?.id === p.id ? p.accent : "#1e1e1e",
-              transition: "all 0.3s",
-            }} />
+              background: "none", border: "none", cursor: "pointer", padding: 0,
+              display: "flex", alignItems: "center", gap: 10, textAlign: "left",
+            }}
+          >
             <span style={{
-              fontSize: 8, letterSpacing: "0.2em", textTransform: "uppercase",
-              color: activeProject?.id === p.id ? p.accent : "#222",
-              transition: "color 0.3s",
-            }}>{p.index} {p.title}</span>
+              width: 18, fontSize: 9, color: activeId === p.id ? p.accent : "rgba(255,255,255,0.25)",
+              fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase",
+              transition: "color 0.2s",
+            }}>{p.id}</span>
+            <span style={{
+              fontSize: 11, fontWeight: 300, letterSpacing: "0.08em",
+              color: activeId === p.id ? "#fff" : "rgba(255,255,255,0.45)",
+              textTransform: "uppercase", transition: "color 0.2s",
+            }}>{p.title}</span>
           </button>
         ))}
       </div>
 
-      {/* Contact — bottom right */}
-      <div style={{ position: "fixed", bottom: 28, right: 32, zIndex: 60, textAlign: "right" }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.12em", color: "#1e1e1e", marginBottom: 3 }}>erikgaertner99@gmail.com</div>
-        <div style={{ fontSize: 8, letterSpacing: "0.12em", color: "#1e1e1e" }}>+49 176 22150639</div>
+      {/* Contact */}
+      <div style={{
+        position: "fixed", bottom: 36, right: 32,
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: "0.12em",
+        textAlign: "right", lineHeight: 1.8,
+      }}>
+        <div>erik.gaertner@architecture.de</div>
       </div>
 
-      {/* 3D Canvas */}
-      <Canvas
-        camera={{ position: [0, 0, 16], fov: 50 }}
-        gl={{ antialias: true, alpha: false }}
-        style={{ position: "absolute", inset: 0, background: "#030303" }}
-        onPointerMissed={() => setActiveProject(null)}
-      >
-        <Scene activeProject={activeProject} setActiveProject={setActiveProject} />
-      </Canvas>
-
-      {/* Full screen detail overlay */}
+      {/* Detail overlay */}
       {activeProject && (
-        <ProjectDetail project={activeProject} onClose={() => setActiveProject(null)} />
+        <DetailPanel
+          project={activeProject}
+          onClose={() => setActiveId(null)}
+        />
       )}
     </div>
   );
