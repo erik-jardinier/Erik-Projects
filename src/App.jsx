@@ -208,18 +208,18 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
     );
   }, [project.folder, imgIdx]);
 
-  // Random stable position spread across wide 3D space
+  // Stable well-distributed positions using golden angle
   const basePos = useMemo(() => {
-    const seed = cardIndex * 137.508;
-    const r = () => (Math.sin(seed * (cardIndex + 1.3)) * 0.5 + 0.5);
-    return new THREE.Vector3(
-      (r() - 0.5) * 28,
-      (Math.sin(seed * 0.7) * 0.5) * 10,
-      (r() * 0.5 - 0.5) * 28
-    );
+    const golden = 137.508 * (Math.PI / 180);
+    const angle = cardIndex * golden;
+    const radius = 6 + (cardIndex % 5) * 2.2;
+    const x = Math.cos(angle) * radius;
+    const z = Math.sin(angle) * radius;
+    const y = ((cardIndex % 7) - 3) * 1.8;
+    return new THREE.Vector3(x, y, z);
   }, [cardIndex]);
 
-  const baseRotY = useMemo(() => (cardIndex * 0.618) * Math.PI * 2, [cardIndex]);
+  const baseRotY = useMemo(() => cardIndex * 137.508 * (Math.PI / 180), [cardIndex]);
 
   const aspect = useMemo(() => {
     if (!texture) return 1.0;
@@ -228,17 +228,17 @@ function FloatingCard({ cardData, cardIndex, totalCards, activeProjectId, setAct
     return Math.min(Math.max(w / h, 0.5), 2.0);
   }, [texture]);
 
-  // Random card size variation
-  const cardW = useMemo(() => 1.8 + (cardIndex % 3) * 0.5, [cardIndex]);
+  // Card size variation - kept tighter to reduce overlap
+  const cardW = useMemo(() => 1.6 + (cardIndex % 3) * 0.3, [cardIndex]);
   const cardH = cardW / aspect;
 
   // Slow drift
-  const driftOffset = useMemo(() => cardIndex * 0.4, [cardIndex]);
+  const driftOffset = useMemo(() => cardIndex * 0.7, [cardIndex]);
 
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.getElapsedTime();
-    const drift = Math.sin(t * 0.3 + driftOffset) * 0.15;
+    const drift = Math.sin(t * 0.2 + driftOffset) * 0.08;
 
     if (isActiveProject) {
       // Fan out the cards of the active project nicely
