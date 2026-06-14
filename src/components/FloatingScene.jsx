@@ -261,6 +261,11 @@ export default function FloatingScene() {
         color:"rgba(255,255,255,0.25)", fontSize:"0.6rem", letterSpacing:"0.15em",
         textTransform:"uppercase", whiteSpace:"nowrap",
       }}>drag to explore · click to open</div>
+      
+      <div style={{
+        position:"fixed", inset:0, zIndex:5, pointerEvents:"none",
+        background:"radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.95) 100%)",
+      }} />
       <Canvas camera={{ position:[0,0,9], fov:55 }}>
         <Suspense fallback={null}>
           <Scene onCardClick={(p, src) => { setSelected(p); setStartSrc(src); }} />
