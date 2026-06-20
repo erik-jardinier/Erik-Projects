@@ -186,10 +186,10 @@ function Overlay({ project, startSrc, onClose }) {
       </div>
 
       <div onClick={e => e.stopPropagation()} style={{
-        display:"flex", flex:1, overflow:"hidden", cursor:"default",
+        display:"flex", flex:1, overflow:"hidden auto", cursor:"default",
       }}>
         <div style={{
-          flex:"0 0 60%", display:"flex", alignItems:"center", justifyContent:"center",
+          flex:"1 1 100%", minWidth:300, display:"flex", alignItems:"center", justifyContent:"center",
           padding:"32px", position:"relative",
         }}>
           {project.video && imgIndex === 0 ? (
@@ -226,7 +226,7 @@ function Overlay({ project, startSrc, onClose }) {
         </div>
 
         <div style={{
-          flex:"0 0 40%", padding:"32px 40px 32px 0",
+          flex:"1 1 100%", minWidth:280, padding:"32px 40px 32px 0",
           display:"flex", flexDirection:"column", justifyContent:"center", overflowY:"auto",
         }}>
           <div style={{ color:"rgba(255,255,255,0.35)", fontSize:"0.6rem", letterSpacing:"0.2em", textTransform:"uppercase", marginBottom:24 }}>
