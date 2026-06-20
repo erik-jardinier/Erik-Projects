@@ -166,8 +166,8 @@ function Overlay({ project, startSrc, onClose }) {
       fontFamily:F, overflow:"hidden",
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        display:"flex", justifyContent:"space-between", alignItems:"flex-start",
-        padding:"32px 40px 24px", cursor:"default",
+        display:"flex", flexWrap:"wrap", justifyContent:"space-between", alignItems:"flex-start", gap:8,
+        padding:"20px 24px 16px", cursor:"default",
         borderBottom:"1px solid rgba(255,255,255,0.08)",
       }}>
         <div>
@@ -186,10 +186,10 @@ function Overlay({ project, startSrc, onClose }) {
       </div>
 
       <div onClick={e => e.stopPropagation()} style={{
-        display:"flex", flex:1, overflow:"hidden auto", cursor:"default",
+        display:"flex", flexWrap:"wrap", flex:1, overflow:"hidden auto", cursor:"default",
       }}>
         <div style={{
-          flex:"1 1 100%", minWidth:300, display:"flex", alignItems:"center", justifyContent:"center",
+          flex:"1 1 320px", display:"flex", alignItems:"center", justifyContent:"center",
           padding:"32px", position:"relative",
         }}>
           {project.video && imgIndex === 0 ? (
@@ -226,7 +226,7 @@ function Overlay({ project, startSrc, onClose }) {
         </div>
 
         <div style={{
-          flex:"1 1 100%", minWidth:280, padding:"32px 40px 32px 0",
+          flex:"1 1 280px", padding:"32px 40px 32px 0",
           display:"flex", flexDirection:"column", justifyContent:"center", overflowY:"auto",
         }}>
           <div style={{ color:"rgba(255,255,255,0.35)", fontSize:"0.6rem", letterSpacing:"0.2em", textTransform:"uppercase", marginBottom:24 }}>
