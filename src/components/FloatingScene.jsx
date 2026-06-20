@@ -74,33 +74,46 @@ function Scene({ onCardClick }) {
 
   useEffect(() => {
     const canvas = gl.domElement;
+    const getXY = (e) => {
+      if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    };
     const down = (e) => {
+      const p = getXY(e);
       isDragging.current = true;
-      lastPos.current = { x: e.clientX, y: e.clientY };
-      startPos.current = { x: e.clientX, y: e.clientY };
+      lastPos.current = p;
+      startPos.current = p;
       vel.current = { x: 0, y: 0 };
       didDrag.current = false;
       document.body.style.cursor = "grabbing";
     };
     const move = (e) => {
       if (!isDragging.current) return;
-      const dx = (e.clientX - lastPos.current.x) / 100;
-      const dy = -(e.clientY - lastPos.current.y) / 100;
+      const p = getXY(e);
+      const dx = (p.x - lastPos.current.x) / 100;
+      const dy = -(p.y - lastPos.current.y) / 100;
       vel.current = { x: dx, y: dy };
       targetX.current += dx;
       targetY.current += dy;
-      lastPos.current = { x: e.clientX, y: e.clientY };
-      if (Math.abs(e.clientX - startPos.current.x) > 5 || Math.abs(e.clientY - startPos.current.y) > 5)
+      lastPos.current = p;
+      if (Math.abs(p.x - startPos.current.x) > 5 || Math.abs(p.y - startPos.current.y) > 5)
         didDrag.current = true;
+      if (e.touches) e.preventDefault();
     };
     const up = () => { isDragging.current = false; document.body.style.cursor = "default"; };
     canvas.addEventListener("mousedown", down);
     window.addEventListener("mousemove", move);
     window.addEventListener("mouseup", up);
+    canvas.addEventListener("touchstart", down, { passive: true });
+    window.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", up);
     return () => {
       canvas.removeEventListener("mousedown", down);
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
+      canvas.removeEventListener("touchstart", down);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
     };
   }, [gl]);
 
