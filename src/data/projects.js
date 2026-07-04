@@ -191,6 +191,41 @@ const projects = [
       "/projects/10_gucci_memoria/09.jpg",
       "/projects/10_gucci_memoria/10.jpg"
     ]
+  },
+  {
+    "id": "kimany_2010",
+    "title": "2010",
+    "subtitle": "Single Cover Art",
+    "year": "2025",
+    "location": "Germany – Berlin",
+    "description": "Single cover artwork for Kimany Thayano, released September 2025. The design centres on a speaker grille dot matrix as the visual motif — precision-perforated industrial material at the intersection of sound culture and graphic design.",
+    "hero": "/projects/11_kimany_2010/00.jpg",
+    "images": [
+      "/projects/11_kimany_2010/00.jpg"
+    ]
+  },
+  {
+    "id": "molkenmarkt",
+    "title": "Molkenmarkt",
+    "subtitle": "1st Prize — Competition",
+    "year": "2025",
+    "location": "Germany – Berlin – Mitte",
+    "description": "1st Prize. Realisierungswettbewerb Berlin-Mitte. Client: WBM Wohnungsbaugesellschaft Berlin-Mitte mbH in cooperation with Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen. Team: Baumeister und Dietzsch Architekten in Arbeitsgemeinschaft mit ENS Eckert Negwer Suselbeek Architekten. November 2025.",
+    "hero": "/projects/12_molkenmarkt/00.jpg",
+    "images": [
+      "/projects/12_molkenmarkt/00.jpg",
+      "/projects/12_molkenmarkt/01.jpg",
+      "/projects/12_molkenmarkt/02.jpg",
+      "/projects/12_molkenmarkt/03.jpg",
+      "/projects/12_molkenmarkt/04.jpg",
+      "/projects/12_molkenmarkt/05.jpg",
+      "/projects/12_molkenmarkt/06.jpg",
+      "/projects/12_molkenmarkt/07.jpg",
+      "/projects/12_molkenmarkt/08.jpg",
+      "/projects/12_molkenmarkt/09.jpg",
+      "/projects/12_molkenmarkt/10.jpg",
+      "/projects/12_molkenmarkt/11.jpg"
+    ]
   }
 ];
 export default projects;
