@@ -46,16 +46,10 @@ const projects = [
       "/projects/03_innovation/00.jpg",
       "/projects/03_innovation/01.jpg",
       "/projects/03_innovation/02.jpg",
-      "/projects/03_innovation/03.jpg",
-      "/projects/03_innovation/04.jpg",
-      "/projects/03_innovation/05.jpg",
-      "/projects/03_innovation/06.jpg",
-      "/projects/03_innovation/07.jpg",
-      "/projects/03_innovation/08.jpg",
-      "/projects/03_innovation/09.jpg",
-      "/projects/03_innovation/10.jpg",
-      "/projects/03_innovation/11.jpg",
-      "/projects/03_innovation/12.jpg"
+      "/projects/03_innovation/03.jpg"
+    ],
+    "particles": [
+      "/projects/03_innovation/00.jpg"
     ]
   },
   {
