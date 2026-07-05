@@ -12,11 +12,10 @@ const projects = [
       "/projects/01_boarding_house/01.jpg",
       "/projects/01_boarding_house/02.jpg",
       "/projects/01_boarding_house/03.jpg",
-      "/projects/01_boarding_house/04.jpg",
-      "/projects/01_boarding_house/05.jpg",
-      "/projects/01_boarding_house/06.jpg",
-      "/projects/01_boarding_house/07.jpg",
-      "/projects/01_boarding_house/08.jpg"
+      "/projects/01_boarding_house/04.jpg"
+    ],
+    "particles": [
+      "/projects/01_boarding_house/00.jpg"
     ]
   },
   {
