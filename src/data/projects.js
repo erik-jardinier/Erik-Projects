@@ -69,16 +69,10 @@ const projects = [
       "/projects/04_campus/05.jpg",
       "/projects/04_campus/06.jpg",
       "/projects/04_campus/07.jpg",
-      "/projects/04_campus/08.jpg",
-      "/projects/04_campus/09.jpg",
-      "/projects/04_campus/10.jpg",
-      "/projects/04_campus/11.jpg",
-      "/projects/04_campus/12.jpg",
-      "/projects/04_campus/13.jpg",
-      "/projects/04_campus/14.jpg",
-      "/projects/04_campus/15.jpg",
-      "/projects/04_campus/16.jpg",
-      "/projects/04_campus/17.jpg"
+      "/projects/04_campus/08.jpg"
+    ],
+    "particles": [
+      "/projects/04_campus/00.jpg"
     ]
   },
   {
