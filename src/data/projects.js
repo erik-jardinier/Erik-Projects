@@ -32,8 +32,7 @@ const projects = [
       "/projects/02_gutenberg/01.jpg",
       "/projects/02_gutenberg/02.jpg",
       "/projects/02_gutenberg/03.jpg",
-      "/projects/02_gutenberg/04.jpg",
-      "/projects/02_gutenberg/05.jpg"
+      "/projects/02_gutenberg/04.jpg"
     ]
   },
   {
@@ -151,7 +150,8 @@ const projects = [
       "/projects/08_angst/01.jpg",
       "/projects/08_angst/02.jpg",
       "/projects/08_angst/03.jpg",
-      "/projects/08_angst/04.jpg"
+      "/projects/08_angst/04.jpg",
+      "/projects/08_angst/05.jpg"
     ]
   },
   {
