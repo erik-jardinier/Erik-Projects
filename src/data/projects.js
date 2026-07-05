@@ -216,14 +216,10 @@ const projects = [
       "/projects/12_molkenmarkt/01.jpg",
       "/projects/12_molkenmarkt/02.jpg",
       "/projects/12_molkenmarkt/03.jpg",
-      "/projects/12_molkenmarkt/04.jpg",
-      "/projects/12_molkenmarkt/05.jpg",
-      "/projects/12_molkenmarkt/06.jpg",
-      "/projects/12_molkenmarkt/07.jpg",
-      "/projects/12_molkenmarkt/08.jpg",
-      "/projects/12_molkenmarkt/09.jpg",
-      "/projects/12_molkenmarkt/10.jpg",
-      "/projects/12_molkenmarkt/11.jpg"
+      "/projects/12_molkenmarkt/04.jpg"
+    ],
+    "particles": [
+      "/projects/12_molkenmarkt/00.jpg"
     ]
   }
 ];
