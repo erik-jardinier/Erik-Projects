@@ -25,12 +25,15 @@ const projects = [
     "year": "2022",
     "location": "Germany – Mainz",
     "description": "Competition entry for the new Gutenberg Museum in the historic centre of Mainz. Awarded recognition. Client: City of Mainz. Team: Sandra Töpfer, Karsten Ruf, Karolina Kotyrba, Lara Kienold, Erik Gärtner. The Gutenberg Plateau connects the historic building with the new structure through a generous open staircase.",
-    "hero": "/projects/02_gutenberg/00.jpg",
+    "hero": "/projects/02_gutenberg/04.jpg",
     "images": [
       "/projects/02_gutenberg/00.jpg",
       "/projects/02_gutenberg/01.jpg",
       "/projects/02_gutenberg/02.jpg",
       "/projects/02_gutenberg/03.jpg",
+      "/projects/02_gutenberg/04.jpg"
+    ],
+    "particles": [
       "/projects/02_gutenberg/04.jpg"
     ]
   },
@@ -41,7 +44,7 @@ const projects = [
     "year": "2023 – 2024",
     "location": "Germany – Schwedt/Oder – PCK Refinery",
     "description": "A major transformation of the PCK refinery into a versatile innovation site for renewable energy research and production. Team: Mathis Winkels, Vladislav Sirotin, Jannik Schlingemann, Erik Gärtner. A continuous grid is laid over the site from which controlled yet flexible building structures emerge. Primary structures are arranged like linked brackets, secondary structures form courtyards.",
-    "hero": "/projects/03_innovation/00.jpg",
+    "hero": "/projects/03_innovation/01.jpg",
     "images": [
       "/projects/03_innovation/00.jpg",
       "/projects/03_innovation/01.jpg",
@@ -49,7 +52,7 @@ const projects = [
       "/projects/03_innovation/03.jpg"
     ],
     "particles": [
-      "/projects/03_innovation/00.jpg"
+      "/projects/03_innovation/01.jpg"
     ]
   },
   {
@@ -59,7 +62,7 @@ const projects = [
     "year": "2024",
     "location": "Italy – Trieste – Cantieri San Marco",
     "description": "Campus di Astrofisica on the site of the historic gasometers in Trieste. The preserved gasometer is converted into a planetarium; the second footprint becomes an exhibition tower with a projection sphere. Includes co-working spaces, workshops, a cafeteria, lecture halls and server rooms. Exhibited at Civico Museo Sartorio, Trieste, November 2024.",
-    "hero": "/projects/04_campus/00.jpg",
+    "hero": "/projects/04_campus/02.jpg",
     "images": [
       "/projects/04_campus/00.jpg",
       "/projects/04_campus/01.jpg",
@@ -72,7 +75,7 @@ const projects = [
       "/projects/04_campus/08.jpg"
     ],
     "particles": [
-      "/projects/04_campus/00.jpg"
+      "/projects/04_campus/02.jpg"
     ]
   },
   {
@@ -111,7 +114,7 @@ const projects = [
     "year": "2025",
     "location": "Germany – Berlin",
     "description": "A collection of AI-generated images exploring surreal creature hybrids, fashion editorials and abstract textures. Experiments at the intersection of artificial intelligence, visual composition and contemporary aesthetics — including collaborations with Gruppe and Tor Studio.",
-    "hero": "/projects/07_ai_gallery/00.jpg",
+    "hero": "/projects/07_ai_gallery/01.jpg",
     "images": [
       "/projects/07_ai_gallery/00.jpg",
       "/projects/07_ai_gallery/01.jpg",
@@ -122,6 +125,9 @@ const projects = [
       "/projects/07_ai_gallery/06.jpg",
       "/projects/07_ai_gallery/07.jpg",
       "/projects/07_ai_gallery/08.jpg"
+    ],
+    "particles": [
+      "/projects/07_ai_gallery/01.jpg"
     ]
   },
   {
