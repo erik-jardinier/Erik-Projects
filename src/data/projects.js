@@ -161,7 +161,9 @@ const projects = [
       "/projects/09_gucci_cruise/02.jpg",
       "/projects/09_gucci_cruise/03.jpg"
     ],
-    "video": "/projects/09_gucci_cruise/show.mp4"
+    "video": "/projects/09_gucci_cruise/show.mp4",
+    "videoAlt": "/projects/09_gucci_cruise/show-old.mp4",
+    "videoAltLabel": "Full Show"
   },
   {
     "id": "gucci_memoria",

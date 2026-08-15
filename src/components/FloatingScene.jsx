@@ -140,6 +140,7 @@ function Scene({ onCardClick }) {
 
 function Overlay({ project, startSrc, onClose }) {
   const [imgIndex, setImgIndex] = useState(0);
+  const [activeVideo, setActiveVideo] = useState("main");
 
   useEffect(() => {
     if (!project) return;
@@ -193,9 +194,27 @@ function Overlay({ project, startSrc, onClose }) {
           padding:"32px", position:"relative",
         }}>
           {project.video && imgIndex === 0 ? (
-            <video src={project.video} controls autoPlay muted loop style={{
-              maxWidth:"100%", maxHeight:"calc(100vh - 180px)", display:"block"
-            }} />
+            <>
+              <video key={activeVideo} src={activeVideo === "main" ? project.video : project.videoAlt} controls autoPlay muted loop style={{
+                maxWidth:"100%", maxHeight:"calc(100vh - 180px)", display:"block"
+              }} />
+              {project.videoAlt && (
+                <div style={{ position:"absolute", top:16, right:16, display:"flex", gap:6 }}>
+                  <button onClick={() => setActiveVideo("main")} style={{
+                    background:"none", border:"1px solid rgba(255,255,255,0.25)",
+                    color: activeVideo==="main" ? "white" : "rgba(255,255,255,0.4)",
+                    fontSize:"0.6rem", letterSpacing:"0.1em", textTransform:"uppercase",
+                    padding:"4px 10px", cursor:"pointer", fontFamily:"Helvetica, Arial, sans-serif",
+                  }}>Snippet</button>
+                  <button onClick={() => setActiveVideo("alt")} style={{
+                    background:"none", border:"1px solid rgba(255,255,255,0.25)",
+                    color: activeVideo==="alt" ? "white" : "rgba(255,255,255,0.4)",
+                    fontSize:"0.6rem", letterSpacing:"0.1em", textTransform:"uppercase",
+                    padding:"4px 10px", cursor:"pointer", fontFamily:"Helvetica, Arial, sans-serif",
+                  }}>{project.videoAltLabel || "Alt"}</button>
+                </div>
+              )}
+            </>
           ) : (
             <img key={imgIndex} src={project.images[imgIndex]} alt={project.title} style={{
               maxWidth:"100%", maxHeight:"calc(100vh - 180px)",
