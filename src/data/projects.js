@@ -182,9 +182,7 @@ const projects = [
       "/projects/10_gucci_memoria/05.jpg",
       "/projects/10_gucci_memoria/06.jpg",
       "/projects/10_gucci_memoria/07.jpg",
-      "/projects/10_gucci_memoria/08.jpg",
-      "/projects/10_gucci_memoria/09.jpg",
-      "/projects/10_gucci_memoria/10.jpg"
+      "/projects/10_gucci_memoria/08.jpg"
     ]
   },
   {
